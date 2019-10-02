@@ -1,15 +1,30 @@
 import React, { Component } from 'react';
-
-import { View } from 'react-native';
+import { connect } from 'react-redux';
+import PropTypes from 'proptypes';
 
 import NavigationService from './services/navigation';
-import Routes from './routes';
+import createNavigator from './routes';
 
-export default class App extends Component {
-    registerService = (ref) => {
-        NavigationService.setTopLevelNavigatior(ref);
-    }
+class App extends Component {
+  static propTypes = {
+    auth: PropTypes.shape({
+      authChecked: PropTypes.bool,
+      signedIn: PropTypes.bool,
+    }).isRequired
+  }
+  registerService = (ref) => {
+    NavigationService.setTopLevelNavigatior(ref);
+  }
   render() {
+    const { auth } = this.props;
+    if (!auth.authChecked) return null;
+    const Routes = createNavigator(auth.signedIn);
     return <Routes ref={this.registerService} />;
   }
 }
+
+const mapStateToProps = state => ({
+  auth: state.auth,
+});
+
+export default connect(mapStateToProps)(App);

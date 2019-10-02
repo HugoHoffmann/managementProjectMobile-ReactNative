@@ -19,7 +19,6 @@ class SignIn extends Component {
     }
     handleSubmit = () => {
         const {email, password} = this.state;
-
         const {signInRequest} = this.props;
         // call action redux
         signInRequest(email, password);

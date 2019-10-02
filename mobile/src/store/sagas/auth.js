@@ -1,5 +1,5 @@
 import {call, put, select} from 'redux-saga/effects';
-import { AsyncStorage } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 
 import NavigationService from '~/services/navigation';
 
@@ -9,15 +9,28 @@ import api from '~/services/api';
 export function* signIn({ email, password }){
     try {
         const response = yield call(api.post,'sessions', {email, password} );
-
+        
         yield call([AsyncStorage, 'setItem'], '@Management:token', response.data.token);
-
+        
         yield put(AuthActions.signInSuccess(response.data.token))
-        NavigationService.navigate('Main');
-    } catch (error) {
-        console.log('error');
 
+        NavigationService.navigate('Main', null);
+    } catch (error) {
+        console.log('deu ruim');
+        console.log(error);
     }
+}
+
+export function* init(){
+    const token = yield call([AsyncStorage, 'getItem'], '@Management:token');
+
+    if(token){
+        yield put(AuthActions.signInSuccess(token ))
+    }
+
+    yield put(AuthActions.initCheckSuccess());
+    
+   
 }
 
 export function* signUp({ name, email, password }){
