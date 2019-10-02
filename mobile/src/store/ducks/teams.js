@@ -19,7 +19,7 @@ export default Creators;
 const INITIAL_STATE = Immutable({
     data: [],
     teamModalOpen: false,
-    // active: JSON.parse(localStorage.getItem('@Management:team')) || null,
+    active: null,
 });
 
 export const getSuccess = (state, {data}) => {
