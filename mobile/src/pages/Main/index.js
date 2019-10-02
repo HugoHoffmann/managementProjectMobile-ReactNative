@@ -6,6 +6,7 @@ import SideMenu from 'react-native-side-menu';
 import { connect } from 'react-redux';
 
 import TeamSwitcher from '~/components/TeamSwitcher';
+import Projects from '~/components/Projects';
 
 import { View, TouchableOpacity, Text } from 'react-native';
 
@@ -58,6 +59,7 @@ class Main extends Component {
                                 <Icon name="group" size={24} color="#FFF" />
                             </TouchableOpacity>
                         </View>
+                    <Projects/>
                     </View>
                 </SideMenu>
             </View>

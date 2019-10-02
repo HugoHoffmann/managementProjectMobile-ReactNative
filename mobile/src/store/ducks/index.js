@@ -8,6 +8,6 @@ import  {reducer as members } from './members';
 export default combineReducers({
     auth,
     teams,
-    // projects,
+    projects,
     // members,
 });
