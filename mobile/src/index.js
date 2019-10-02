@@ -3,6 +3,8 @@ import '~/config/StatusBarConfig';
 
 import { View } from 'react-native';
 
-const Root = () => <View />;
+import Routes from './routes';
+
+const Root = () => <Routes />;
 
 export default Root;
