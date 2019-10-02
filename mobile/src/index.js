@@ -5,11 +5,11 @@ import '~/config/StatusBarConfig';
 import store from './store';
 import { View } from 'react-native';
 
-import Routes from './routes';
+import App from './App';
 
 const Root = () => (
     <Provider store={store}>
-        <Routes />
+        <App />
     </Provider>    
 
 )
