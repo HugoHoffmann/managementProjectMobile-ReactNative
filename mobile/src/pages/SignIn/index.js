@@ -2,9 +2,17 @@ import React, { Component } from 'react';
 
 import { View, Platform, KeyboardAvoidingView, Text, TextInput, TouchableOpacity } from 'react-native';
 
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import PropTypes from 'proptypes';
+import AuthActions from '~/store/ducks/auth';
+
 import styles from './styles';
 
-export default class SignIn extends Component {
+class SignIn extends Component {
+    static propTypes = {
+        signInRequest: PropTypes.func.isRequired,
+    }
     state = {
         email: '',
         password: '',
@@ -12,7 +20,9 @@ export default class SignIn extends Component {
     handleSubmit = () => {
         const {email, password} = this.state;
 
+        const {signInRequest} = this.props;
         // call action redux
+        signInRequest(email, password);
     }
     render() {
         const {email, password} = this.state;
@@ -62,3 +72,8 @@ export default class SignIn extends Component {
         );
     }
 }
+
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(AuthActions, dispatch);
+
+export default connect(null, mapDispatchToProps)(SignIn);
