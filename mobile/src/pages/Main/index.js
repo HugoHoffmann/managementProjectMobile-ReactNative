@@ -1,48 +1,73 @@
-import React from 'react';
+import React, { Component } from 'react';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import PropTypes from 'proptypes';
+import SideMenu from 'react-native-side-menu';
 
-import { connect } from 'react-redux'
+import { connect } from 'react-redux';
+
+import TeamSwitcher from '~/components/TeamSwitcher';
 
 import { View, TouchableOpacity, Text } from 'react-native';
 
 import styles from './styles';
+import { is } from '@babel/types';
+class Main extends Component {
+    state = {
+        leftOpen: false,
+    }
+    static propTypes = {
+        activeTeam: PropTypes.shape({
+            name: PropTypes.string
+        }),
+    }
 
-const Main = ({activeTeam}) => (
-    <View style={styles.backgroundWrapper}>
-        <View style={styles.container}>
-            <View style={styles.header}>
-                <TouchableOpacity 
-                    onPress={ () => {} }
-                    hitSlop={{top: 5, bottom:5, left: 10, right: 10}}
+    static default = {
+        activeTeam: null,
+    }
+
+    toggleMenu = (position, isOpen) => {
+        this.setState({ [`${position}Open`]: isOpen })
+    }
+    render() {
+        const {activeTeam} = this.props;
+        const {leftOpen} = this.state;
+        return (
+            <View style={styles.backgroundWrapper}>
+                <SideMenu 
+                    isOpen={leftOpen} 
+                    disableGestures
+                    onChange={isOpen => this.toggleMenu('left', isOpen)} 
+                    openMenuOffset={70}
+                    menu={<TeamSwitcher/>}
                 >
-                    <Icon name="menu" size={24} color="#FFF"/>
-                </TouchableOpacity>
-                <Text style={styles.teamTitle}>
-                    {activeTeam ? activeTeam.name : 'Selecione um Time'}
-                </Text>
-                <TouchableOpacity 
-                    onPress={ () => {} }
-                >
-                    <Icon name="group" size={24} color="#FFF"/>
-                </TouchableOpacity>
+
+                    <View style={styles.container}>
+                        <View style={styles.header}>
+                            <TouchableOpacity
+                                onPress={() => this.toggleMenu('left', true)}
+                                hitSlop={{ top: 5, bottom: 5, left: 10, right: 10 }}
+                            >
+                                <Icon name="menu" size={24} color="#FFF" />
+                            </TouchableOpacity>
+                            <Text style={styles.teamTitle}>
+                                {activeTeam ? activeTeam.name : 'Selecione um Time'}
+                            </Text>
+                            <TouchableOpacity
+                                onPress={() => this.toggleMenu('left', true)}
+                            >
+                                <Icon name="group" size={24} color="#FFF" />
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                </SideMenu>
             </View>
-        </View>
-    </View>
-)
+        );
+    }
+}
+
 
 const mapStateToProps = state => ({
-  activeTeam: state.teams.active,
+    activeTeam: state.teams.active,
 });
-
-Main.propTypes = {
-    activeTeam: PropTypes.shape({
-        name: PropTypes.string
-    }),
-}
-
-Main.default = {
-    activeTeam: null,
-}
 
 export default connect(mapStateToProps)(Main);
