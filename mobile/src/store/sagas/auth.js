@@ -4,6 +4,8 @@ import AsyncStorage from '@react-native-community/async-storage';
 import NavigationService from '~/services/navigation';
 
 import AuthActions from '../ducks/auth';
+import TeamActions from '../ducks/teams';
+
 import api from '~/services/api';
 
 export function* signIn({ email, password }){
@@ -23,9 +25,14 @@ export function* signIn({ email, password }){
 
 export function* init(){
     const token = yield call([AsyncStorage, 'getItem'], '@Management:token');
-
+    
     if(token){
         yield put(AuthActions.signInSuccess(token ))
+    }
+
+    const team = yield call([AsyncStorage, 'getItem'], '@Management:team');
+    if(team){
+        yield put(TeamActions.selectTeam(JSON.parse(team)))
     }
 
     yield put(AuthActions.initCheckSuccess());

@@ -26,8 +26,7 @@ export const getSuccess = (state, {data}) => {
     return state.merge({ data })
 }
 
-export const selectTeam = (state, {team}) => {
-    // localStorage.setItem('@Management:team', JSON.stringify(team));
+export const selectTeamSuccess = (state, {team}) => {
     return state.merge({ active: team });
 }
 
@@ -39,7 +38,7 @@ export const createSuccess = (state, {team}) => state.merge({ data: [...state.da
 
 export const reducer = createReducer(INITIAL_STATE, {
     [Types.GET_TEAMS_SUCCESS]: getSuccess,
-    [Types.SELECT_TEAM]: selectTeam,
+    [Types.SELECT_TEAM]: selectTeamSuccess,
     [Types.OPEN_TEAM_MODAL]: openModal,
     [Types.CLOSE_TEAM_MODAL]: closeModal,
     [Types.CREATE_TEAM_SUCCESS]: createSuccess,
