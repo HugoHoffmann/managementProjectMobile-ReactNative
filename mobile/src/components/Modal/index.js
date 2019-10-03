@@ -1,0 +1,29 @@
+import React from 'react';
+import PropTypes from 'proptypes';
+import { View, Platform, KeyboardAvoidingView, Modal as RNModal } from 'react-native';
+
+import styles from './styles';
+
+const Modal = ({ visible, children, onRequestClose }) => (
+    <RNModal 
+        visible={visible} 
+        animationType="slide"
+        onRequestClose={onRequestClose}
+        transparent
+    >
+        <KeyboardAvoidingView style={styles.container} behavior={ Platform.OS === 'ios'? 'padding' : null}>
+            <View style={styles.content}>
+                {children}
+            </View>
+        </KeyboardAvoidingView>
+
+    </RNModal>
+)
+
+Modal.propTypes = {
+    visible: PropTypes.bool.isRequired,
+    onRequestClose: PropTypes.func.isRequired,
+    children: PropTypes.oneOfType([PropTypes.element, PropTypes.arrayOf(PropTypes.element)]).isRequired
+}
+
+export default Modal;
