@@ -12,9 +12,11 @@ import { View, TouchableOpacity, Text } from 'react-native';
 
 import styles from './styles';
 import { is } from '@babel/types';
+import Members from '~/components/Members';
 class Main extends Component {
     state = {
         leftOpen: false,
+        rightOpen: false,
     }
     static propTypes = {
         activeTeam: PropTypes.shape({
@@ -30,37 +32,47 @@ class Main extends Component {
         this.setState({ [`${position}Open`]: isOpen })
     }
     render() {
-        const {activeTeam} = this.props;
-        const {leftOpen} = this.state;
+        const { activeTeam } = this.props;
+        const { leftOpen, rightOpen } = this.state;
         return (
             <View style={styles.backgroundWrapper}>
-                <SideMenu 
-                    isOpen={leftOpen} 
+                <SideMenu
+                    isOpen={leftOpen}
                     disableGestures
-                    onChange={isOpen => this.toggleMenu('left', isOpen)} 
+                    onChange={isOpen => this.toggleMenu('left', isOpen)}
                     openMenuOffset={70}
-                    menu={<TeamSwitcher/>}
+                    menu={<TeamSwitcher />}
                 >
 
-                    <View style={styles.container}>
-                        <View style={styles.header}>
-                            <TouchableOpacity
-                                onPress={() => this.toggleMenu('left', true)}
-                                hitSlop={{ top: 5, bottom: 5, left: 10, right: 10 }}
-                            >
-                                <Icon name="menu" size={24} color="#FFF" />
-                            </TouchableOpacity>
-                            <Text style={styles.teamTitle}>
-                                {activeTeam ? activeTeam.name : 'Selecione um Time'}
-                            </Text>
-                            <TouchableOpacity
-                                onPress={() => this.toggleMenu('left', true)}
-                            >
-                                <Icon name="group" size={24} color="#FFF" />
-                            </TouchableOpacity>
+                    <SideMenu
+                        isOpen={rightOpen}
+                        disableGestures
+                        onChange={isOpen => this.toggleMenu('right', isOpen)}
+                        openMenuOffset={285}
+                        menuPosition="right"
+                        menu={<Members />}
+                    >
+                        <View style={styles.container}>
+                            <View style={styles.header}>
+                                <TouchableOpacity
+                                    onPress={() => this.toggleMenu('left', true)}
+                                    hitSlop={{ top: 5, bottom: 5, left: 10, right: 10 }}
+                                >
+                                    <Icon name="menu" size={24} color="#FFF" />
+                                </TouchableOpacity>
+                                <Text style={styles.teamTitle}>
+                                    {activeTeam ? activeTeam.name : 'Selecione um Time'}
+                                </Text>
+                                <TouchableOpacity
+                                    onPress={() => this.toggleMenu('right', true)}
+                                >
+                                    <Icon name="group" size={24} color="#FFF" />
+                                </TouchableOpacity>
+                            </View>
+                            <Projects />
                         </View>
-                    <Projects/>
-                    </View>
+                    </SideMenu>
+
                 </SideMenu>
             </View>
         );

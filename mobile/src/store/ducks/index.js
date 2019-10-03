@@ -9,5 +9,5 @@ export default combineReducers({
     auth,
     teams,
     projects,
-    // members,
+    members,
 });
