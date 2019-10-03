@@ -8,6 +8,8 @@ import { connect } from 'react-redux';
 import Modal from '~/components/Modal';
 import MembersActions from '~/store/ducks/members';
 
+import Can from '~/components/Can';
+
 import styles from './styles';
 
 class RoleUpdater extends Component {
@@ -15,7 +17,7 @@ class RoleUpdater extends Component {
         roles: [],
     }
 
-    async componentDidMount(){
+    async componentDidMount() {
         const response = await api.get('roles');
 
         this.setState({ roles: response.data });
@@ -24,10 +26,10 @@ class RoleUpdater extends Component {
     handleRoleChange = (value, role) => {
         const { updateMemberRequest, onRequestClose, member } = this.props;
 
-        const roles = value 
+        const roles = value
             ? [...member.roles, role]
-            : member.roles.filter(memberRole => memberRole.id !== role.id );
-        updateMemberRequest(member.id,roles);
+            : member.roles.filter(memberRole => memberRole.id !== role.id);
+        updateMemberRequest(member.id, roles);
         onRequestClose();
     }
 
@@ -36,30 +38,30 @@ class RoleUpdater extends Component {
         const { visible, onRequestClose, member } = this.props;
         return (
             <Modal
-                visible={visible} 
+                visible={visible}
                 onRequestClose={onRequestClose}
             >
                 <View>
                     {roles.map(role => (
-                        <View 
+                        <View
                             key={role.id}
                             style={styles.roleContainer}
                         >
                             <Text style={styles.roleText}>
                                 {role.name}
                             </Text>
-                            <Switch 
+                            <Switch
                                 value={!!member.roles.find(memberRole => memberRole.id === role.id)}
-                                onValueChange={value => this.handleRoleChange(value, role)}    
+                                onValueChange={value => this.handleRoleChange(value, role)}
                             />
                         </View>
                     ))}
                 </View>
-            <TouchableOpacity onPress={onRequestClose} style={styles.cancel}>
-                <Text style={styles.cancelText}>
-                    Voltar
+                <TouchableOpacity onPress={onRequestClose} style={styles.cancel}>
+                    <Text style={styles.cancelText}>
+                        Voltar
                 </Text>
-            </TouchableOpacity>
+                </TouchableOpacity>
             </Modal>
         );
     }
@@ -67,7 +69,7 @@ class RoleUpdater extends Component {
 
 
 const mapDispatchToProps = dispatch =>
-  bindActionCreators(MembersActions, dispatch);
+    bindActionCreators(MembersActions, dispatch);
 
 export default connect(
     null,

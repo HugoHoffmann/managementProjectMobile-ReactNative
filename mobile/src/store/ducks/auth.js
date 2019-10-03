@@ -18,8 +18,8 @@ const INITIAL_STATE = Immutable({
     authChecked: false,
     signedIn: false,
     token: null,
-    // roles: [],
-    // permissions: [],
+    roles: [],
+    permissions: [],
 });
 
 export const success = (state, {token}) => {
