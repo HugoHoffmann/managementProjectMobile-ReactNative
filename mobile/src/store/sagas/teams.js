@@ -1,4 +1,5 @@
 import {call, put} from 'redux-saga/effects';
+import { ToastActionsCreators } from 'react-native-redux-toast';
 
 import TeamsActions from '../ducks/teams';
 import api from '~/services/api';
@@ -16,7 +17,10 @@ export function* createTeam({ name }){
 
         yield put(TeamsActions.createTeamSuccess(response.data));
         yield put(TeamsActions.closeTeamModal());
+        yield put(ToastActionsCreators.displayInfo('Time criado com sucesso'));
+
     } catch (error) {
+        yield put(ToastActionsCreators.displayError('Houve algum problema, tente novamente'));      
     }
 
 }

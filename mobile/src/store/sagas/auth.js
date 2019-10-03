@@ -2,6 +2,7 @@ import {call, put, select} from 'redux-saga/effects';
 import AsyncStorage from '@react-native-community/async-storage';
 
 import NavigationService from '~/services/navigation';
+import { ToastActionsCreators } from 'react-native-redux-toast';
 
 import AuthActions from '../ducks/auth';
 import TeamActions from '../ducks/teams';
@@ -19,6 +20,7 @@ export function* signIn({ email, password }){
         NavigationService.navigate('Main', null);
     } catch (error) {
         console.log('deu ruim');
+        yield put(ToastActionsCreators.displayError('Houve algum problema, tente novamente'));      
         console.log(error);
     }
 }
